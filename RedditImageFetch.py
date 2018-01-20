@@ -1,5 +1,7 @@
 import praw
 import urllib
+import ctypes
+
 r = praw.Reddit(client_id = "zAXTI9GjBt2lqA",
 				user_agent = "hackcambridgebot",
 				client_secret = "oTqNPVMXXVzQM2McW_c0TV5dCTY",
@@ -17,5 +19,7 @@ def get_image_urls(r, subreddit_name):
 def downloadImage(url,filename):
 	urllib.request.urlretrieve(url, filename)
 	
-urls = get_image_urls(r,"all")
-downloadImage(urls[0],"first_image.jpg")
+def setBackground(path):
+	ctypes.windll.user32.SystemParametersInfoW(20, 0, path, 0)
+	
+setBackground("‪C:\\Users\\User\\SupOrganize\\first.jpg")

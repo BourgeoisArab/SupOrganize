@@ -49,10 +49,11 @@ def get_screen_aspect_ratio():
 def select_best_url(urls):
 	(w, h) = getScreenRes()
 	desired_aspect_ratio = aspect_ratio((w, h))
-	tolerance = 1.1
-	max_ratio = tolerance*desired_aspect_ratio
-	min_ratio = desired_aspect_ratio/tolerance
-	min_width = w/tolerance
+	ratio_tolerance = 1.3
+	max_ratio = ratio_tolerance*desired_aspect_ratio
+	min_ratio = desired_aspect_ratio/ratio_tolerance
+	width_tolerance = 1.3
+	min_width = w/width_tolerance
 	
 	for url in urls:
 		res = get_resolution(url)
@@ -60,7 +61,6 @@ def select_best_url(urls):
 		if min_ratio <= ratio <= max_ratio:
 			if min_width <= res[0]:
 				return url
-	print("AAAAA")
 	return urls[0]
 		
 url = select_best_url(get_image_urls(r, 'pics'))

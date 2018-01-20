@@ -2,6 +2,11 @@ import praw
 import urllib
 import ctypes
 import os
+from PIL import Image
+import requests
+from PIL import Image
+from io import BytesIO
+
 
 r = praw.Reddit(client_id = "zAXTI9GjBt2lqA",
 				user_agent = "hackcambridgebot",
@@ -21,7 +26,12 @@ def downloadImage(url,filename):
 	urllib.request.urlretrieve(url, filename)
 	
 def setBackground(path):
-	ctypes.windll.user32.SystemParametersInfoW(20, 0, path, 0)
+	p = os.path.abspath(path)
+	ctypes.windll.user32.SystemParametersInfoW(20, 0, p, 0)
 	
-path = os.path.abspath("C:\\Users\\Dan\\SupOrganize\\first.jpg")
-setBackground(path)
+def get_resolution(url):
+    data = requests.get(url).content
+    im = Image.open(BytesIO(data))    
+    return im.size
+	
+print(get_resolution("https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/68dd54ca-60cf-4ef7-898b-26d7cbe48ec7/10-dithering-opt.jpg"))

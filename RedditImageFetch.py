@@ -39,7 +39,7 @@ def getScreenRes():
 def get_screen_aspect_ratio():
 	return aspect_ratio(getScreenRes())
 	
-def select_best_url(urls):
+def select_best_url(urls,counter):
 	(w, h) = getScreenRes()
 	desired_aspect_ratio = aspect_ratio((w, h))
 	ratio_tolerance = 0.3
@@ -47,15 +47,21 @@ def select_best_url(urls):
 	min_ratio = desired_aspect_ratio*(1-ratio_tolerance)
 	width_tolerance = 1.3
 	min_width = w/width_tolerance
+	best_urls = []
+	
 	
 	for url in urls:
 		res = get_resolution(url)
 		ratio = aspect_ratio(res)
 		if min_ratio <= ratio <= max_ratio:
 			if min_width <= res[0]:
-				return url
+				best_urls.append(url)
+				if len(best_urls) == counter:
+					return best_urls
 	print("None of the images were a great fit, but we've you given you one anyway.")
-	return urls[0]
+	return best_urls+urls[0:counter-len(best_urls)]
+	
+
 
 def update_background_from_subreddit(subreddit):
 	r = praw.Reddit(client_id = "zAXTI9GjBt2lqA",
@@ -65,10 +71,30 @@ def update_background_from_subreddit(subreddit):
 				password = "hackcambridge2k18")
 	
 	
-	url = select_best_url(get_image_urls(r, subreddit))
-	downloadImage(url, 'mynewfile.jpg')
-	setBackground('C:\\Users\\User\\SupOrganize\\mynewfile.jpg')
+	url = select_best_url(get_image_urls(r, subreddit),1)
+	downloadImage(url[0], 'image1.jpg')
+	setBackground('C:\\Users\\User\\SupOrganize\\image0.jpg')
+
 	
-update_background_from_subreddit(sys.argv[1])
+	
+def get_preview_images(subreddit):
+	r = praw.Reddit(client_id = "zAXTI9GjBt2lqA",
+			user_agent = "hackcambridgebot",
+			client_secret = "oTqNPVMXXVzQM2McW_c0TV5dCTY",
+			username = "hackcambridge2k18", 
+			password = "hackcambridge2k18")
+	
+	
+	urls = select_best_url(get_image_urls(r, subreddit),3)
+	for i in range(3):
+		downloadImage(urls[i],"image"+str(i)+".jpg")
+	
+runOrPreview = sys.argv[1]
+chosenSubreddit = sys.argv[2]
+	
+if(runOrPreview=='r'):
+	update_background_from_subreddit(chosenSubreddit)
+else:
+	get_preview_images(chosenSubreddit)
 	
 	

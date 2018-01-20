@@ -1,4 +1,4 @@
-package uk.ac.cam.jp775.supo;
+
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -20,9 +20,7 @@ public class PreviewPanel extends JPanel {
 	private String srName;
 	
 	public PreviewPanel() {
-		images.add("C:\\Users\\BourgeoisArab\\Pictures\\fadlesbrekky.jpg");
-		images.add("C:\\Users\\BourgeoisArab\\Pictures\\holbrookflipped.jpg");
-		images.add("C:\\Users\\BourgeoisArab\\Pictures\\marmite.jpeg");
+
 	}
 	
 	public void setFilePath(String s) {

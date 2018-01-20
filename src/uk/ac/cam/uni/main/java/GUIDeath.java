@@ -1,4 +1,4 @@
-
+package uk.ac.cam.uni.main.java;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -17,11 +17,11 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class GUIDeath extends JFrame implements ListSelectionListener {
+public class GUIDeath extends JFrame {
 	
 	private final String mBatchFile = "wallpaperscheduler.bat";
-	private PreviewPanel previewPanel;
-	private JTextField textField;
+	private PreviewPanel mPreviewPanel;
+	private JTextField mTextField;
 
 	public GUIDeath() {
 		super("Here yee Here yee get yo nice wallpapers");
@@ -30,7 +30,17 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 
 		add(createInputPanel(), BorderLayout.NORTH);
 		add(createPreviewPanel(), BorderLayout.CENTER);
-		add(new JButton("OK"), BorderLayout.SOUTH);
+		
+		JButton bOK = new JButton("OK");
+		bOK.addActionListener(e-> {
+			try {
+				sendCommand(true);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			System.exit(0);
+		});
+		add(bOK, BorderLayout.SOUTH);
 	}
 
 
@@ -44,45 +54,27 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 		JPanel ctrl = new JPanel();
 		ctrl.setLayout(new GridLayout(1, 2));
 
-		textField = new JTextField(20);
-		ctrl.add(textField);
+		mTextField = new JTextField(20);
+		ctrl.add(mTextField);
 
 		JButton bPreview = new JButton("Preview");
+		bPreview.addActionListener(e->{
+			try {
+				sendCommand(false);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		ctrl.add(bPreview);
 		addBorder(ctrl, "Search for SubReddit");
 		return ctrl;
 	}
 
 	private JPanel createPreviewPanel() {
-		previewPanel = new PreviewPanel();
-		addBorder(previewPanel, "Preview");
-		return previewPanel;
-	}
-
-	private JPanel createControlPanel() {
-		JPanel ctrl = new JPanel();
-		ctrl.setLayout(new GridLayout(1, 2));
-
-		JButton bPreview = new JButton("Preview");
-		bPreview.addActionListener(e -> {
-			try {
-				sendCommand(false);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
-		JButton bOK = new JButton("OK");
-		bOK.addActionListener(e -> {
-			try {
-				sendCommand(true);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
-
-		ctrl.add(bPreview);
-		ctrl.add(bOK);
-		return ctrl;
+		mPreviewPanel = new PreviewPanel();
+		addBorder(mPreviewPanel, "Preview");
+		return mPreviewPanel;
 	}
 
 	public static void main(String[] args) {
@@ -93,7 +85,7 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 	private void sendCommand(boolean send) throws IOException {
 		String s = "";
 		String param1 = send ? "r" : "p";
-		String param2 = textField.getText();
+		String param2 = mTextField.getText();
 		Process p = Runtime.getRuntime().exec(mBatchFile + " " + param1 + " " + param2);
 		 
 	    BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -106,9 +98,4 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 	    }
 	}
 
-	@Override
-	public void valueChanged(ListSelectionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }

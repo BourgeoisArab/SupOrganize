@@ -1,10 +1,6 @@
+package uk.ac.cam.jp775.supo;
 
-
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,17 +12,15 @@ public class PreviewPanel extends JPanel {
 
 	private int n = 3; // Number of preview images
 	private int imgSize = 256;
-	private ArrayList<String> images = new ArrayList<String>();
+	private ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 	private String srName;
 	
 	public PreviewPanel() {
+//		images.add("C:\\Users\\BourgeoisArab\\Pictures\\fadlesbrekky.jpg");
+//		images.add("C:\\Users\\BourgeoisArab\\Pictures\\holbrookflipped.jpg");
+//		images.add("C:\\Users\\BourgeoisArab\\Pictures\\marmite.jpeg");
+	}
 
-	}
-	
-	public void setFilePath(String s) {
-		
-	}
-	
 	public void setSubReddit(String name) {
 		this.srName = name;
 	}
@@ -44,9 +38,9 @@ public class PreviewPanel extends JPanel {
 			g.drawString("SubReddit found: " + srName, 20, 30);
 		}
 		try {
-			ArrayList<BufferedImage> ims = loadImages();
-			for (int i = 0; i < ims.size(); i++) {
-				BufferedImage image = ims.get(i);
+			loadImages("");
+			for (int i = 0; i < images.size(); i++) {
+				BufferedImage image = images.get(i);
 				int w = image.getWidth();
 				int h = image.getHeight();
 				if (w > h) {
@@ -61,12 +55,15 @@ public class PreviewPanel extends JPanel {
 		}
 	}
 	
-	private ArrayList<BufferedImage> loadImages() throws IOException {
-		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
-		for(String i : this.images) {
-			images.add(ImageIO.read(new File(i)));
+	private void loadImages(String path) throws IOException {
+		for(int i = 0; i < n; i++) {
+			try {
+				images.add(ImageIO.read(new File(path + "image" + i + ".jpg")));
+			} catch (IOException e) {
+				n = i;
+				break;
+			}
 		}
-		return images;
 	}
 
 	public void display() {

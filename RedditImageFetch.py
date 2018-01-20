@@ -5,6 +5,7 @@ import os
 import requests
 from PIL import Image
 from io import BytesIO
+import sys
 
 def get_image_urls(r, subreddit_name):
 	submissions = r.subreddit(subreddit_name).top('day')
@@ -66,8 +67,8 @@ def update_background_from_subreddit(subreddit):
 	
 	url = select_best_url(get_image_urls(r, subreddit))
 	downloadImage(url, 'mynewfile.jpg')
-	setBackground('C:\\Users\\Dan\\SupOrganize\\mynewfile.jpg')
+	setBackground('C:\\Users\\User\\SupOrganize\\mynewfile.jpg')
 	
-update_background_from_subreddit('pics')
+update_background_from_subreddit(sys.argv[1])
 	
 	

@@ -8,7 +8,13 @@ from io import BytesIO
 import sys
 
 def get_image_urls(r, subreddit_name):
+	try:
+		r.subreddits.search_by_name(subreddit_name, exact=True)
+	except:
+		print("No subreddit by the name: "+subreddit_name+" found.")
+		return []
 	submissions = r.subreddit(subreddit_name).top('day')
+	print(submissions)
 	img_urls = []
 	for sub in submissions:
 		if not sub.is_self and sub.url.endswith(".jpg") or sub.url.endswith(".png"):
@@ -49,7 +55,6 @@ def select_best_url(urls,counter):
 	min_width = w/width_tolerance
 	best_urls = []
 	
-	
 	for url in urls:
 		res = get_resolution(url)
 		ratio = aspect_ratio(res)
@@ -70,10 +75,13 @@ def update_background_from_subreddit(subreddit):
 				username = "hackcambridge2k18", 
 				password = "hackcambridge2k18")
 	
-	
-	url = select_best_url(get_image_urls(r, subreddit),1)
-	downloadImage(url[0], 'image1.jpg')
-	setBackground('C:\\Users\\User\\SupOrganize\\image0.jpg')
+	img_urls = get_image_urls(r, subreddit)
+	if len(img_urls) == 0:
+		print("No images found on the front page of "+subreddit)
+		return False
+	url = select_best_url(img_urls ,1)
+	downloadImage(url[0], 'image0.jpg')
+	setBackground('C:\\Users\\Dan\\SupOrganize\\image0.jpg')					#This might crash your everything if your user isn't called Dan
 
 	
 	
@@ -84,8 +92,11 @@ def get_preview_images(subreddit):
 			username = "hackcambridge2k18", 
 			password = "hackcambridge2k18")
 	
-	
-	urls = select_best_url(get_image_urls(r, subreddit),3)
+	img_urls = get_image_urls(r, subreddit)
+	if len(img_urls) == 0:
+		print("No images found on the front page of "+subreddit)
+		return False
+	urls = select_best_url(img_urls, 3)
 	for i in range(3):
 		downloadImage(urls[i],"image"+str(i)+".jpg")
 	

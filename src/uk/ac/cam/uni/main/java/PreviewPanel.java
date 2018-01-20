@@ -18,6 +18,10 @@ public class PreviewPanel extends JPanel {
 	public PreviewPanel() {
 		
 	}
+	
+	public void clearPreviewImages() {
+		this.images.clear();
+	}
 
 	public void setSubReddit(String name) {
 		this.srName = name;

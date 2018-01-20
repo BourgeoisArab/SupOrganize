@@ -83,6 +83,7 @@ public class GUIDeath extends JFrame {
 	}
 	
 	private void sendCommand(boolean send) throws IOException {
+		mPreviewPanel.clearPreviewImages();
 		String s = "";
 		String param1 = send ? "r" : "p";
 		String param2 = mTextField.getText();

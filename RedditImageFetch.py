@@ -33,5 +33,10 @@ def get_resolution(url):
     data = requests.get(url).content
     im = Image.open(BytesIO(data))    
     return im.size
+
+def getScreenRes():
+	user32 = ctypes.windll.user32
+	user32.SetProcessDPIAware()
+	(w, h) = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
+	return (w,h)
 	
-print(get_resolution("https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/68dd54ca-60cf-4ef7-898b-26d7cbe48ec7/10-dithering-opt.jpg"))

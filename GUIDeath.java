@@ -23,7 +23,10 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1024, 768);
 
+		setLayout(new GridLayout(3, 1));
 		add(createInputPanel(), BorderLayout.CENTER);
+		add(createPreviewPanel(), BorderLayout.NORTH);
+		add(new JButton("OK"), BorderLayout.SOUTH);
 	}
 
 
@@ -37,12 +40,12 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 		JPanel ctrl = new JPanel();
 		ctrl.setLayout(new GridLayout(1, 2));
 
-		textField = new JTextField();
-		
+		textField = new JTextField(20);
+		ctrl.add(textField);
+
 		JButton bPreview = new JButton("Preview");
 		ctrl.add(bPreview);
-		ctrl.add(textField);
-		addBorder(previewPanel, "Search for SubReddit");
+		addBorder(ctrl, "Search for SubReddit");
 		return ctrl;
 	}
 

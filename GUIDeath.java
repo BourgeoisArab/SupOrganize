@@ -2,6 +2,9 @@ package uk.ac.cam.jp775.supo;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,16 +19,17 @@ import javax.swing.event.ListSelectionListener;
 
 public class GUIDeath extends JFrame implements ListSelectionListener {
 	
+	private final String mBatchFile = "wallpaperscheduler.bat";
 	private PreviewPanel previewPanel;
 	private JTextField textField;
 
 	public GUIDeath() {
+		super("Here yee Here yee get yo nice wallpapers");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1024, 768);
+		setSize(1024, 512);
 
-		setLayout(new GridLayout(3, 1));
-		add(createInputPanel(), BorderLayout.CENTER);
-		add(createPreviewPanel(), BorderLayout.NORTH);
+		add(createInputPanel(), BorderLayout.NORTH);
+		add(createPreviewPanel(), BorderLayout.CENTER);
 		add(new JButton("OK"), BorderLayout.SOUTH);
 	}
 
@@ -60,9 +64,21 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 		ctrl.setLayout(new GridLayout(1, 2));
 
 		JButton bPreview = new JButton("Preview");
-		bPreview.addActionListener(e -> {});
+		bPreview.addActionListener(e -> {
+			try {
+				sendCommand(false);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
 		JButton bOK = new JButton("OK");
-		bOK.addActionListener(e -> {});
+		bOK.addActionListener(e -> {
+			try {
+				sendCommand(true);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
 
 		ctrl.add(bPreview);
 		ctrl.add(bOK);
@@ -73,14 +89,26 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 		GUIDeath gui = new GUIDeath();
 		gui.setVisible(true);
 	}
-
+	
+	private void sendCommand(boolean send) throws IOException {
+		String s = "";
+		String param1 = send ? "r" : "p";
+		String param2 = textField.getText();
+		Process p = Runtime.getRuntime().exec(mBatchFile + " " + param1 + " " + param2);
+		 
+	    BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+	    while ((s = stdInput.readLine()) != null) { //print the output from running the command
+	        System.out.println(s);
+	    }
+	    BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+	    while ((s = stdError.readLine()) != null) { //print any errors
+	       System.out.println(s);
+	    }
+	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	
-
 }

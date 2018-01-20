@@ -33,10 +33,38 @@ def get_resolution(url):
     data = requests.get(url).content
     im = Image.open(BytesIO(data))    
     return im.size
+	
+def aspect_ratio(dimensions):
+	return dimensions[0]/dimensions[1]
 
 def getScreenRes():
 	user32 = ctypes.windll.user32
 	user32.SetProcessDPIAware()
 	(w, h) = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
 	return (w,h)
+	
+def get_screen_aspect_ratio():
+	return aspect_ratio(getScreenRes())
+	
+def select_best_url(urls):
+	(w, h) = getScreenRes()
+	desired_aspect_ratio = aspect_ratio((w, h))
+	tolerance = 1.1
+	max_ratio = tolerance*desired_aspect_ratio
+	min_ratio = desired_aspect_ratio/tolerance
+	min_width = w/tolerance
+	
+	for url in urls:
+		res = get_resolution(url)
+		ratio = aspect_ratio(res)
+		if min_ratio <= ratio <= max_ratio:
+			if min_width <= res[0]:
+				return url
+	print("AAAAA")
+	return urls[0]
+		
+url = select_best_url(get_image_urls(r, 'pics'))
+downloadImage(url, 'mynewfile.jpg')
+setBackground('C:\\Users\\Dan\\SupOrganize\\mynewfile.jpg')
+	
 	

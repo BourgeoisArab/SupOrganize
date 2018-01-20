@@ -25,18 +25,16 @@ public class PreviewPanel extends JPanel {
 
 	@Override
 	protected void paintComponent(java.awt.Graphics g) {
+		
 		int yOffset = 25;
 		this.imgSize = Math.min(this.getHeight() - 2 * yOffset, (this.getWidth() - (n - 2) * n * yOffset) / n);
 		g.setColor(java.awt.Color.WHITE);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g.setColor(java.awt.Color.BLACK);
-		if (images.size() <= 0) {
-			g.drawString("No images found", 20, 30);
-		} else if (srName != null) {
-			g.drawString("SubReddit found: " + srName, 20, 30);
-		}
 		try {
-			loadImages("");
+			if (images.size() <= 0) {
+				loadImages("");
+			}
 			for (int i = 0; i < images.size(); i++) {
 				BufferedImage image = images.get(i);
 				int w = image.getWidth();
@@ -51,9 +49,13 @@ public class PreviewPanel extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		if (images.size() <= 0) {
+			g.drawString("No images found", 20, 30);
+		}
 	}
 	
 	private void loadImages(String path) throws IOException {
+		images.clear();
 		for(int i = 0; i < n; i++) {
 			try {
 				images.add(ImageIO.read(new File(path + "image" + i + ".jpg")));

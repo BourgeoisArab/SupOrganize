@@ -17,7 +17,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class GUIDeath extends JFrame implements ListSelectionListener {
+public class GUIDeath extends JFrame {
 	
 	private final String mBatchFile = "wallpaperscheduler.bat";
 	private PreviewPanel previewPanel;
@@ -30,7 +30,17 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 
 		add(createInputPanel(), BorderLayout.NORTH);
 		add(createPreviewPanel(), BorderLayout.CENTER);
-		add(new JButton("OK"), BorderLayout.SOUTH);
+		
+		JButton bOK = new JButton("OK");
+		bOK.addActionListener(e-> {
+			try {
+				sendCommand(true);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			System.exit(0);
+		});
+		add(bOK, BorderLayout.SOUTH);
 	}
 
 
@@ -48,6 +58,14 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 		ctrl.add(textField);
 
 		JButton bPreview = new JButton("Preview");
+		bPreview.addActionListener(e->{
+			try {
+				sendCommand(false);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		ctrl.add(bPreview);
 		addBorder(ctrl, "Search for SubReddit");
 		return ctrl;
@@ -57,32 +75,6 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 		previewPanel = new PreviewPanel();
 		addBorder(previewPanel, "Preview");
 		return previewPanel;
-	}
-
-	private JPanel createControlPanel() {
-		JPanel ctrl = new JPanel();
-		ctrl.setLayout(new GridLayout(1, 2));
-
-		JButton bPreview = new JButton("Preview");
-		bPreview.addActionListener(e -> {
-			try {
-				sendCommand(false);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
-		JButton bOK = new JButton("OK");
-		bOK.addActionListener(e -> {
-			try {
-				sendCommand(true);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		});
-
-		ctrl.add(bPreview);
-		ctrl.add(bOK);
-		return ctrl;
 	}
 
 	public static void main(String[] args) {
@@ -106,9 +98,4 @@ public class GUIDeath extends JFrame implements ListSelectionListener {
 	    }
 	}
 
-	@Override
-	public void valueChanged(ListSelectionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }

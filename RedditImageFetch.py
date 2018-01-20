@@ -14,7 +14,6 @@ def get_image_urls(r, subreddit_name):
 		print("No subreddit by the name: "+subreddit_name+" found.")
 		return []
 	submissions = r.subreddit(subreddit_name).top('day')
-	print(submissions)
 	img_urls = []
 	for sub in submissions:
 		if not sub.is_self and sub.url.endswith(".jpg") or sub.url.endswith(".png"):
@@ -81,7 +80,7 @@ def update_background_from_subreddit(subreddit):
 		return False
 	url = select_best_url(img_urls ,1)
 	downloadImage(url[0], 'image0.jpg')
-	setBackground('C:\\Users\\Dan\\SupOrganize\\image0.jpg')					#This might crash your everything if your user isn't called Dan
+	setBackground(os.getcwd()+'\\image0.jpg')
 
 	
 	

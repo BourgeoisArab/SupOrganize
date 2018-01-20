@@ -1,4 +1,5 @@
 import praw
+import urllib
 r = praw.Reddit(client_id = "zAXTI9GjBt2lqA",
 				user_agent = "hackcambridgebot",
 				client_secret = "oTqNPVMXXVzQM2McW_c0TV5dCTY",
@@ -13,5 +14,8 @@ def get_image_urls(r, subreddit_name):
 			img_urls.append(sub.url)
 	return img_urls
 	
-print(get_image_urls(r, 'all'))
+def downloadImage(url,filename):
+	urllib.request.urlretrieve(url, filename)
 	
+urls = get_image_urls(r,"all")
+downloadImage(urls[0],"first_image.jpg")

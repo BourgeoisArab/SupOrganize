@@ -1,4 +1,4 @@
-package uk.ac.cam.jp775.supo;
+package uk.ac.cam.uni.main.java;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -20,8 +20,8 @@ import javax.swing.event.ListSelectionListener;
 public class GUIDeath extends JFrame {
 	
 	private final String mBatchFile = "wallpaperscheduler.bat";
-	private PreviewPanel previewPanel;
-	private JTextField textField;
+	private PreviewPanel mPreviewPanel;
+	private JTextField mTextField;
 
 	public GUIDeath() {
 		super("Here yee Here yee get yo nice wallpapers");
@@ -54,8 +54,8 @@ public class GUIDeath extends JFrame {
 		JPanel ctrl = new JPanel();
 		ctrl.setLayout(new GridLayout(1, 2));
 
-		textField = new JTextField(20);
-		ctrl.add(textField);
+		mTextField = new JTextField(20);
+		ctrl.add(mTextField);
 
 		JButton bPreview = new JButton("Preview");
 		bPreview.addActionListener(e->{
@@ -72,9 +72,9 @@ public class GUIDeath extends JFrame {
 	}
 
 	private JPanel createPreviewPanel() {
-		previewPanel = new PreviewPanel();
-		addBorder(previewPanel, "Preview");
-		return previewPanel;
+		mPreviewPanel = new PreviewPanel();
+		addBorder(mPreviewPanel, "Preview");
+		return mPreviewPanel;
 	}
 
 	public static void main(String[] args) {
@@ -85,7 +85,7 @@ public class GUIDeath extends JFrame {
 	private void sendCommand(boolean send) throws IOException {
 		String s = "";
 		String param1 = send ? "r" : "p";
-		String param2 = textField.getText();
+		String param2 = mTextField.getText();
 		Process p = Runtime.getRuntime().exec(mBatchFile + " " + param1 + " " + param2);
 		 
 	    BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));

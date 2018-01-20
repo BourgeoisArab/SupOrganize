@@ -1,4 +1,4 @@
-package uk.ac.cam.jp775.supo;
+package uk.ac.cam.uni.main.java;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,9 +16,7 @@ public class PreviewPanel extends JPanel {
 	private String srName;
 	
 	public PreviewPanel() {
-//		images.add("C:\\Users\\BourgeoisArab\\Pictures\\fadlesbrekky.jpg");
-//		images.add("C:\\Users\\BourgeoisArab\\Pictures\\holbrookflipped.jpg");
-//		images.add("C:\\Users\\BourgeoisArab\\Pictures\\marmite.jpeg");
+		
 	}
 
 	public void setSubReddit(String name) {

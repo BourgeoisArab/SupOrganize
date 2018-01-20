@@ -2,17 +2,9 @@ import praw
 import urllib
 import ctypes
 import os
-from PIL import Image
 import requests
 from PIL import Image
 from io import BytesIO
-
-
-r = praw.Reddit(client_id = "zAXTI9GjBt2lqA",
-				user_agent = "hackcambridgebot",
-				client_secret = "oTqNPVMXXVzQM2McW_c0TV5dCTY",
-				username = "hackcambridge2k18", 
-				password = "hackcambridge2k18")
 
 def get_image_urls(r, subreddit_name):
 	submissions = r.subreddit(subreddit_name).top('day')
@@ -49,9 +41,9 @@ def get_screen_aspect_ratio():
 def select_best_url(urls):
 	(w, h) = getScreenRes()
 	desired_aspect_ratio = aspect_ratio((w, h))
-	ratio_tolerance = 1.3
-	max_ratio = ratio_tolerance*desired_aspect_ratio
-	min_ratio = desired_aspect_ratio/ratio_tolerance
+	ratio_tolerance = 0.3
+	max_ratio = desired_aspect_ratio*(1+ratio_tolerance)
+	min_ratio = desired_aspect_ratio*(1-ratio_tolerance)
 	width_tolerance = 1.3
 	min_width = w/width_tolerance
 	
@@ -61,10 +53,21 @@ def select_best_url(urls):
 		if min_ratio <= ratio <= max_ratio:
 			if min_width <= res[0]:
 				return url
+	print("None of the images were a great fit, but we've you given you one anyway.")
 	return urls[0]
-		
-url = select_best_url(get_image_urls(r, 'pics'))
-downloadImage(url, 'mynewfile.jpg')
-setBackground('C:\\Users\\Dan\\SupOrganize\\mynewfile.jpg')
+
+def update_background_from_subreddit(subreddit):
+	r = praw.Reddit(client_id = "zAXTI9GjBt2lqA",
+				user_agent = "hackcambridgebot",
+				client_secret = "oTqNPVMXXVzQM2McW_c0TV5dCTY",
+				username = "hackcambridge2k18", 
+				password = "hackcambridge2k18")
+	
+	
+	url = select_best_url(get_image_urls(r, subreddit))
+	downloadImage(url, 'mynewfile.jpg')
+	setBackground('C:\\Users\\Dan\\SupOrganize\\mynewfile.jpg')
+	
+update_background_from_subreddit('pics')
 	
 	

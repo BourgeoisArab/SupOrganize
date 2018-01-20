@@ -23,5 +23,9 @@ def downloadImage(url,filename):
 def setBackground(path):
 	ctypes.windll.user32.SystemParametersInfoW(20, 0, path, 0)
 	
-path = os.path.abspath("C:\\Users\\Dan\\SupOrganize\\first.jpg")
-setBackground(path)
+
+def getScreenRes():
+	user32 = ctypes.windll.user32
+	user32.SetProcessDPIAware()
+	(w, h) = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
+	return (w,h)

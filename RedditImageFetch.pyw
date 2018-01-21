@@ -10,7 +10,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 
 def get_image_urls(r, subreddit_name):
-	try:
+    try:
 		r.subreddits.search_by_name(subreddit_name, exact=True)
 	except:
 		print("No subreddit by the name: "+subreddit_name+" found.")
@@ -111,12 +111,7 @@ def main():
 		
 	if(runOrPreview=='r'):
 		update_background_from_subreddit(chosenSubreddit)
+		sched.add_job(main, 'interval', seconds = 20)
+		sched.start()
 	else:
 		get_preview_images(chosenSubreddit)
-	
-	
-
-
-
-sched.add_job(main, 'interval', seconds = 20)
-sched.start()

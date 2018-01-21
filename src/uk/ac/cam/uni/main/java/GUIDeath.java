@@ -20,7 +20,7 @@ import javax.swing.event.ListSelectionListener;
 
 public class GUIDeath extends JFrame {
 	
-	private final String mBatchFile = "wallpaperscheduler.bat";
+    private final String mBatchFile = "RedditImageFetch.pyw";
 	private PreviewPanel mPreviewPanel;
 	private JTextField mTextField;
 
@@ -34,6 +34,7 @@ public class GUIDeath extends JFrame {
 		
 		JButton bOK = new JButton("OK");
 		bOK.addActionListener(e-> {
+			this.dispose();
 			try {
 				sendCommand(true);
 			} catch (IOException e1) {
@@ -88,9 +89,8 @@ public class GUIDeath extends JFrame {
 		String s = "";
 		String param1 = send ? "r" : "p";
 		String param2 = mTextField.getText();
-		String param3 = System.getProperty("user.dir");
 		
-		Process p = Runtime.getRuntime().exec(mBatchFile + " " + param1 + " " + param2 + " " + param3);
+        Process p = Runtime.getRuntime().exec("python "+ System.getProperty("user.dir")+"\\"+ mBatchFile + " " + param1 + " " + param2);
 		 
 	    BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 	    while ((s = stdInput.readLine()) != null) { //print the output from running the command

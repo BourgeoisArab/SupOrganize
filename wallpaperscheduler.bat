@@ -1,9 +1,9 @@
 @echo off
 title this is the scheduler batch script
 
-SCHTASKS /Create /TN WallpaperUpdater /TR "%~dp0RedditImageFetch.py %1 %2" /sc DAILY
+SCHTASKS /Create /TN WallpaperUpdater /TR "%3\dirmanager.bat %1 %2 %3" /SC ONLOGON 
 
-SCHTASKS /Run /TN WallpaperUpdater
+%3\dirmanager.bat %1 %2 %3
 
 pause
 

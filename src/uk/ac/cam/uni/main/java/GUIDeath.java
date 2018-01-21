@@ -2,6 +2,7 @@ package uk.ac.cam.uni.main.java;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.TextField;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,7 +27,7 @@ public class GUIDeath extends JFrame {
 	public GUIDeath() {
 		super("Here yee Here yee get yo nice wallpapers");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1024, 512);
+		setSize(1150, 512);
 
 		add(createInputPanel(), BorderLayout.NORTH);
 		add(createPreviewPanel(), BorderLayout.CENTER);
@@ -62,7 +63,6 @@ public class GUIDeath extends JFrame {
 			try {
 				sendCommand(false);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
@@ -72,7 +72,7 @@ public class GUIDeath extends JFrame {
 	}
 
 	private JPanel createPreviewPanel() {
-		mPreviewPanel = new PreviewPanel();
+		mPreviewPanel = new PreviewPanel(this);
 		addBorder(mPreviewPanel, "Preview");
 		return mPreviewPanel;
 	}
@@ -83,11 +83,14 @@ public class GUIDeath extends JFrame {
 	}
 	
 	private void sendCommand(boolean send) throws IOException {
+		mPreviewPanel.deleteFiles("");
 		mPreviewPanel.clearPreviewImages();
 		String s = "";
 		String param1 = send ? "r" : "p";
 		String param2 = mTextField.getText();
-		Process p = Runtime.getRuntime().exec(mBatchFile + " " + param1 + " " + param2);
+		String param3 = System.getProperty("user.dir");
+		
+		Process p = Runtime.getRuntime().exec(mBatchFile + " " + param1 + " " + param2 + " " + param3);
 		 
 	    BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 	    while ((s = stdInput.readLine()) != null) { //print the output from running the command
@@ -97,6 +100,12 @@ public class GUIDeath extends JFrame {
 	    while ((s = stdError.readLine()) != null) { //print any errors
 	       System.out.println(s);
 	    }
+		mPreviewPanel.repaint();
+	}
+
+
+	public String getTextField() {
+		return mTextField.getText();
 	}
 
 }

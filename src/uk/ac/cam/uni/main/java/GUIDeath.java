@@ -100,6 +100,7 @@ public class GUIDeath extends JFrame {
 	    while ((s = stdError.readLine()) != null) { //print any errors
 	       System.out.println(s);
 	    }
+	    mPreviewPanel.loadImages("");
 		mPreviewPanel.repaint();
 	}
 

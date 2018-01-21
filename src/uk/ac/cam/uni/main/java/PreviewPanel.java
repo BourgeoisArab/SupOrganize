@@ -36,24 +36,20 @@ public class PreviewPanel extends JPanel {
 			g.setColor(java.awt.Color.WHITE);
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			g.setColor(java.awt.Color.BLACK);
-			try {
-				System.out.println(container.getTextField());
-				if (images.size() <= 0 && container.getTextField().length() > 0) {
-					loadImages("");
+			System.out.println(container.getTextField());
+			if (images.size() <= 0 && container.getTextField().length() > 0) {
+//					loadImages("");
+			}
+			for (int i = 0; i < images.size(); i++) {
+				BufferedImage image = images.get(i);
+				int w = image.getWidth();
+				int h = image.getHeight();
+				if (w > h) {
+					image = image.getSubimage((w - h) / 2, 0, h, h);
+				} else {
+					image = image.getSubimage(0, (h - w) / 2, w, w);
 				}
-				for (int i = 0; i < images.size(); i++) {
-					BufferedImage image = images.get(i);
-					int w = image.getWidth();
-					int h = image.getHeight();
-					if (w > h) {
-						image = image.getSubimage((w - h) / 2, 0, h, h);
-					} else {
-						image = image.getSubimage(0, (h - w) / 2, w, w);
-					}
-					g.drawImage(image.getScaledInstance(imgSize, imgSize, 0), yOffset * (i + 1) + imgSize * i, yOffset, null);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				g.drawImage(image.getScaledInstance(imgSize, imgSize, 0), yOffset * (i + 1) + imgSize * i, yOffset, null);
 			}
 		}
 		else {
@@ -61,7 +57,7 @@ public class PreviewPanel extends JPanel {
 		}
 	}
 	
-	private void loadImages(String path) throws IOException {
+	public void loadImages(String path) throws IOException {
 		images.clear();
 		for(int i = 0; i < n; i++) {
 			try {

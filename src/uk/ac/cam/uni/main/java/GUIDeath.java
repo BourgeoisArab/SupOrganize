@@ -87,8 +87,7 @@ public class GUIDeath extends JFrame {
 		String s = "";
 		String param1 = send ? "r" : "p";
 		String param2 = mTextField.getText();
-		String param3 = System.getProperty("user.dir");
-		Process p = Runtime.getRuntime().exec(mBatchFile + " " + param1 + " " + param2 + " " + param3);
+		Process p = Runtime.getRuntime().exec(mBatchFile + " " + param1 + " " + param2);
 		 
 	    BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 	    while ((s = stdInput.readLine()) != null) { //print the output from running the command

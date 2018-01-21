@@ -120,5 +120,3 @@ def main():
 
 sched.add_job(main, 'interval', seconds = 20)
 sched.start()
-	
-	

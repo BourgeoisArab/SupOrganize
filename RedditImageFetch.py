@@ -1,11 +1,23 @@
-import praw
-import urllib
-import ctypes
-import os
-import requests
-from PIL import Image
-from io import BytesIO
-import sys
+import time
+
+time.sleep(6)
+try:
+	import praw
+	import urllib
+	import ctypes
+	import os
+	import requests
+	from PIL import Image
+	from io import BytesIO
+	import sys
+
+	print(sys.version)
+	runOrPreview = sys.argv[1]
+	chosenSubreddit = sys.argv[2]
+	directory = sys.argv[3]
+except Exception as e:
+	print(e)
+	input()
 
 def get_image_urls(r, subreddit_name):
 	try:
@@ -79,8 +91,8 @@ def update_background_from_subreddit(subreddit):
 		print("No images found on the front page of "+subreddit)
 		return False
 	url = select_best_url(img_urls ,1)
-	downloadImage(url[0], 'image0.jpg')
-	setBackground(os.getcwd()+'\\image0.jpg')
+	downloadImage(url[0], directory + '\\image0.jpg')
+	setBackground(directory + '\\image0.jpg')
 
 	
 	
@@ -98,13 +110,14 @@ def get_preview_images(subreddit):
 	urls = select_best_url(img_urls, 3)
 	for i in range(3):
 		downloadImage(urls[i],"image"+str(i)+".jpg")
-	
-runOrPreview = sys.argv[1]
-chosenSubreddit = sys.argv[2]
-	
-if(runOrPreview=='r'):
-	update_background_from_subreddit(chosenSubreddit)
-else:
-	get_preview_images(chosenSubreddit)
+
+try:
+	if(runOrPreview=='r'):
+		update_background_from_subreddit(chosenSubreddit)
+	else:
+		get_preview_images(chosenSubreddit)
+except Exception as e:
+	print(e)
+	input()
 	
 	
